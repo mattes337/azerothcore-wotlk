@@ -20,6 +20,7 @@
 #include "AutobroadcastMgr.h"
 #include "BattlegroundMgr.h"
 #include "Chat.h"
+#include "CharacterCache.h"
 #include "CommandScript.h"
 #include "CreatureTextMgr.h"
 #include "DisableMgr.h"
@@ -85,6 +86,7 @@ public:
             { "battleground_template",         HandleReloadBattlegroundTemplate,              SEC_ADMINISTRATOR, Console::Yes },
             { "command",                       HandleReloadCommandCommand,                    SEC_ADMINISTRATOR, Console::Yes },
             { "conditions",                    HandleReloadConditions,                        SEC_ADMINISTRATOR, Console::Yes },
+            { "character_cache",               HandleReloadCharacterCacheCommand,             SEC_ADMINISTRATOR, Console::Yes },
             { "config",                        HandleReloadConfigCommand,                     SEC_ADMINISTRATOR, Console::Yes },
             { "creature_text",                 HandleReloadCreatureText,                      SEC_ADMINISTRATOR, Console::Yes },
             { "creature_questender",           HandleReloadCreatureQuestEnderCommand,         SEC_ADMINISTRATOR, Console::Yes },
@@ -187,6 +189,8 @@ public:
 
     static bool HandleReloadAllCommand(ChatHandler* handler)
     {
+        LOG_INFO("server", "Executing comprehensive .reload all (includes smart_scripts, conditions, creature_text)");
+
         HandleReloadSkillFishingBaseLevelCommand(handler);
 
         HandleReloadAllAchievementCommand(handler);
@@ -216,6 +220,12 @@ public:
         HandleReloadMotdCommand(handler);
         HandleReloadBroadcastTextCommand(handler);
         HandleReloadBattlegroundTemplate(handler);
+
+        // Additional reloads for comprehensive development hot-reload
+        HandleReloadSmartScripts(handler);
+        HandleReloadConditions(handler);
+        HandleReloadCreatureText(handler);
+
         return true;
     }
 
@@ -338,6 +348,23 @@ public:
         HandleReloadLocalesQuestCommand(handler);
         HandleReloadLocalesQuestOfferRewardCommand(handler);
         HandleReloadLocalesQuestRequestItemsCommand(handler);
+        return true;
+    }
+
+    static bool HandleReloadCharacterCacheCommand(ChatHandler* handler, Optional<uint32> guid)
+    {
+        if (guid)
+        {
+            LOG_INFO("server.loading", "Refreshing character cache entry for GUID {}...", *guid);
+            sCharacterCache->RefreshCacheEntry(*guid);
+            handler->SendSysMessage("Character cache entry for GUID " + std::to_string(*guid) + " refreshed.");
+        }
+        else
+        {
+            LOG_INFO("server.loading", "Reloading entire character cache...");
+            sCharacterCache->LoadCharacterCacheStorage();
+            handler->SendGlobalGMSysMessage("Character name cache reloaded.");
+        }
         return true;
     }
 
