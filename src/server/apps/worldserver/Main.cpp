@@ -21,6 +21,7 @@
 
 #include "ACSoap.h"
 #include "AppenderDB.h"
+#include "AppenderJsonl.h"
 #include "AsyncAcceptor.h"
 #include "Banner.h"
 #include "BattlegroundMgr.h"
@@ -188,6 +189,7 @@ int main(int argc, char** argv)
 
     // Init all logs
     sLog->RegisterAppender<AppenderDB>();
+    sLog->RegisterAppender<AppenderJsonl>();
     // If logs are supposed to be handled async then we need to pass the IoContext into the Log singleton
     sLog->Initialize(sConfigMgr->GetOption<bool>("Log.Async.Enable", false) ? ioContext.get() : nullptr);
 
