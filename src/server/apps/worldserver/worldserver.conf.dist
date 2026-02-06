@@ -4699,3 +4699,126 @@ Respawn.DynamicMinimumGameObject = 10
 # GAME SETTINGS END                                                                               #
 #                                                                                                 #
 ###################################################################################################
+
+###################################################################################################
+# AGENT TASK COMMANDS
+#
+#    AgentTasks.Enable
+#        Description: Enable .agent GM commands for in-game task creation.
+#                     When enabled, GMs can use .agent bug/todo/note to record
+#                     tasks with positional context to a file for external tools.
+#        Default:     0 - (Disabled)
+#
+#    AgentTasks.OutputFile
+#        Description: File path for agent task output (relative to server working dir).
+#        Default:     "agent-tasks.md"
+#
+#    AgentTasks.Format
+#        Description: Output format for agent tasks.
+#        Values:      "markdown" - Checkbox-style markdown entries
+#                     "jsonl"    - One JSON object per line
+#        Default:     "markdown"
+#
+
+AgentTasks.Enable = 0
+AgentTasks.OutputFile = "agent-tasks.md"
+AgentTasks.Format = "markdown"
+
+###################################################################################################
+
+###################################################################################################
+# QUERY COMMANDS (SOAP State Queries)
+#
+#    QueryCommands.Enable
+#        Description: Enable .query GM commands for structured JSON state inspection via SOAP.
+#        Default:     0 - (Disabled)
+#
+#    QueryCommands.MaxResults
+#        Description: Maximum number of results returned by .query nearby and .query creature.
+#        Default:     50
+#
+#    QueryCommands.MaxRadius
+#        Description: Maximum radius allowed for .query nearby.
+#        Default:     200.0
+#
+
+QueryCommands.Enable = 0
+QueryCommands.MaxResults = 50
+QueryCommands.MaxRadius = 200.0
+
+###################################################################################################
+# STRUCTURED AGENT LOG (JSONL)
+#
+#    Appender.AgentLog
+#        Description: JSONL appender for structured agent-readable logs.
+#                     Type 4 = JSONL (JSON Lines format).
+#                     Outputs one JSON object per line with fields:
+#                       ts  - ISO 8601 timestamp
+#                       sev - severity (fatal/error/warn/info/debug/trace)
+#                       cat - category derived from logger name
+#                       msg - log message text
+#                       ctx - optional extracted context (entry, map, spell, guid IDs)
+#        Format:      4,LogLevel,Flags,Filename[,Mode[,MaxFileSize]]
+#        Default:     disabled (commented out)
+#
+#    Logger.agent
+#        Description: Route specific log categories to the JSONL appender.
+#        Default:     disabled (commented out)
+#
+# To enable, uncomment these lines:
+# Appender.AgentLog=4,5,0,agent.jsonl
+# Logger.root=2,Console Server AgentLog
+#
+# Or route specific categories:
+# Logger.scripts=5,Console Server AgentLog
+# Logger.spells=5,Console Server AgentLog
+# Logger.entities.unit=5,Console Server AgentLog
+#
+###################################################################################################
+
+###################################################################################################
+# EVENT RECORDER
+#
+#    EventRecorder.Enable
+#        Description: Enable the event recording system for development/testing.
+#                     When enabled, GM commands .record start/stop/status become available.
+#        Default:     0 - (Disabled)
+#
+#    EventRecorder.OutputDir
+#        Description: Directory for recording output files (relative to server working dir).
+#        Default:     "recordings"
+#
+#    EventRecorder.MaxEvents
+#        Description: Maximum events per recording session (safety limit).
+#        Default:     100000
+#
+#    EventRecorder.DefaultRadius
+#        Description: Default radius filter for recordings (0 = no radius filter).
+#                     Can be overridden per-session with .record start <name> --radius <value>.
+#        Default:     0.0
+#
+
+EventRecorder.Enable = 0
+EventRecorder.OutputDir = "recordings"
+EventRecorder.MaxEvents = 100000
+EventRecorder.DefaultRadius = 0.0
+
+#
+###################################################################################################
+
+###################################################################################################
+# HOT RELOAD PIPELINE
+#
+#    HotReload.DbcReload.Enable
+#        Description: Enable .reload dbc command for runtime DBC store refresh.
+#                     This command provides information about which DBC stores can
+#                     be reloaded and which require a server restart.
+#                     WARNING: Reloading DBC stores at runtime can be unsafe.
+#                     Only use in development environments.
+#        Default:     0 - (Disabled)
+#
+
+HotReload.DbcReload.Enable = 0
+
+#
+###################################################################################################

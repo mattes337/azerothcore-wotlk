@@ -16,6 +16,7 @@
  */
 
 // This is where scripts' loading functions should be declared:
+void AddSC_agent_commandscript();
 void AddSC_account_commandscript();
 void AddSC_achievement_commandscript();
 void AddSC_arena_commandscript();
@@ -50,8 +51,11 @@ void AddSC_npc_commandscript();
 void AddSC_pet_commandscript();
 void AddSC_player_commandscript();
 void AddSC_pooltools_commandscript();
+void AddSC_query_commandscript();
 void AddSC_quest_commandscript();
+void AddSC_record_commandscript();
 void AddSC_reload_commandscript();
+void AddSC_reload_dbc_commandscript();
 void AddSC_reset_commandscript();
 void AddSC_send_commandscript();
 void AddSC_server_commandscript();
@@ -69,6 +73,7 @@ void AddSC_worldstate_commandscript();
 // void Add${NameOfDirectory}Scripts()
 void AddCommandsScripts()
 {
+    AddSC_agent_commandscript();
     AddSC_account_commandscript();
     AddSC_achievement_commandscript();
     AddSC_arena_commandscript();
@@ -103,8 +108,11 @@ void AddCommandsScripts()
     AddSC_pet_commandscript();
     AddSC_player_commandscript();
     AddSC_pooltools_commandscript();
+    AddSC_query_commandscript();
     AddSC_quest_commandscript();
+    AddSC_record_commandscript();
     AddSC_reload_commandscript();
+    AddSC_reload_dbc_commandscript();
     AddSC_reset_commandscript();
     AddSC_send_commandscript();
     AddSC_server_commandscript();
