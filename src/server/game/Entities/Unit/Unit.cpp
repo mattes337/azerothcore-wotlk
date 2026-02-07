@@ -1516,6 +1516,7 @@ void Unit::CalculateMeleeDamage(Unit* victim, CalcDamageInfo* damageInfo, Weapon
     damageInfo->procVictim       = PROC_FLAG_NONE;
     damageInfo->procEx           = PROC_EX_NONE;
     damageInfo->hitOutCome       = MELEE_HIT_EVADE;
+    damageInfo->weaponSubclass   = 0;
 
     if (!victim)
         return;
@@ -1610,6 +1611,15 @@ void Unit::CalculateMeleeDamage(Unit* victim, CalcDamageInfo* damageInfo, Weapon
             damageInfo->damages[i].damage = damage;
         }
     }
+
+    // Populate weapon subclass for script hooks
+    if (Player const* attackerPlayer = ToPlayer())
+    {
+        if (Item const* weapon = attackerPlayer->GetWeaponForAttack(damageInfo->attackType, true))
+            damageInfo->weaponSubclass = weapon->GetTemplate()->SubClass;
+    }
+
+    sScriptMgr->OnCalcMeleeDamageInfo(damageInfo);
 
     damageInfo->hitOutCome = RollMeleeOutcomeAgainst(damageInfo->target, damageInfo->attackType);
 

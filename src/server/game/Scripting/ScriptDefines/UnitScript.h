@@ -45,12 +45,14 @@ enum UnitHook
     UNITHOOK_ON_UNIT_SET_SHAPESHIFT_FORM,
     UNITHOOK_ON_CAN_AURA_STACK,
     UNITHOOK_ON_CHECK_AREA_AURA_RAID,
+    UNITHOOK_ON_CALC_MELEE_DAMAGE_INFO,
     UNITHOOK_END
 };
 
 enum ReputationRank : uint8;
 class ByteBuffer;
 struct BuildValuesCachePosPointers;
+struct CalcDamageInfo;
 
 class UnitScript : public ScriptObject
 {
@@ -116,6 +118,9 @@ public:
 
     // Called when checking if an area aura can affect a raid target. Return false to exclude.
     [[nodiscard]] virtual bool OnCheckAreaAuraRaid(Aura const* /*aura*/, Unit* /*target*/) { return true; }
+
+    // Called after melee damage info is calculated (includes weaponSubclass field).
+    virtual void OnCalcMeleeDamageInfo(CalcDamageInfo* /*damageInfo*/) { }
 };
 
 #endif

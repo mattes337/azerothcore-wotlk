@@ -81,6 +81,7 @@ class SpellScriptLoader;
 
 struct AchievementCriteriaData;
 struct AuctionEntry;
+struct CalcDamageInfo;
 struct Condition;
 struct ConditionSourceInfo;
 struct DungeonProgressionRequirements;
@@ -561,6 +562,7 @@ public: /* UnitScript */
     void OnUnitSetShapeshiftForm(Unit* unit, uint8 form);
     bool OnCanAuraStack(Aura const* newAura, Aura const* existingAura);
     bool OnCheckAreaAuraRaid(Aura const* aura, Unit* target);
+    void OnCalcMeleeDamageInfo(CalcDamageInfo* damageInfo);
 
 public: /* MovementHandlerScript */
     void OnPlayerMove(Player* player, MovementInfo movementInfo, uint32 opcode);

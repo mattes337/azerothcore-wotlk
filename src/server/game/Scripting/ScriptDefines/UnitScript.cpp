@@ -144,6 +144,11 @@ bool ScriptMgr::OnCheckAreaAuraRaid(Aura const* aura, Unit* target)
     CALL_ENABLED_BOOLEAN_HOOKS(UnitScript, UNITHOOK_ON_CHECK_AREA_AURA_RAID, !script->OnCheckAreaAuraRaid(aura, target));
 }
 
+void ScriptMgr::OnCalcMeleeDamageInfo(CalcDamageInfo* damageInfo)
+{
+    CALL_ENABLED_HOOKS(UnitScript, UNITHOOK_ON_CALC_MELEE_DAMAGE_INFO, script->OnCalcMeleeDamageInfo(damageInfo));
+}
+
 UnitScript::UnitScript(const char* name, bool addToScripts, std::vector<uint16> enabledHooks)
     : ScriptObject(name, UNITHOOK_END)
 {

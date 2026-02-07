@@ -489,6 +489,7 @@ struct CalcDamageInfo
     uint32 procEx;
     uint32 cleanDamage;          // Used only for rage calculation
     MeleeHitOutcome hitOutCome;  /// @todo: remove this field (need use TargetState)
+    uint32 weaponSubclass;       // ItemSubclassWeapon of the equipped weapon (or 0)
 };
 
 // Spell damage info structure based on structure sending in SMSG_SPELLNONMELEEDAMAGELOG opcode
