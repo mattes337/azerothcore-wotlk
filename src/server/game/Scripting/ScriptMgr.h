@@ -567,6 +567,7 @@ public: /* AllCreatureScript */
     //void OnAllCreatureUpdate(Creature* creature, uint32 diff);
     void OnBeforeCreatureSelectLevel(const CreatureTemplate* cinfo, Creature* creature, uint8& level);
     void OnCreatureSelectLevel(const CreatureTemplate* cinfo, Creature* creature);
+    void OnAfterCreatureUpdateStats(Creature* creature);
     void OnCreatureSaveToDB(Creature* creature);
 
 public: /* AllGameobjectScript */

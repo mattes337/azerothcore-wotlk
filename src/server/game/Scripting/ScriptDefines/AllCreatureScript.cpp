@@ -65,6 +65,14 @@ void ScriptMgr::OnCreatureSelectLevel(const CreatureTemplate* cinfo, Creature* c
     });
 }
 
+void ScriptMgr::OnAfterCreatureUpdateStats(Creature* creature)
+{
+    ExecuteScript<AllCreatureScript>([&](AllCreatureScript* script)
+    {
+        script->OnAfterCreatureUpdateStats(creature);
+    });
+}
+
 //bool ScriptMgr::CanCreatureSendListInventory(Player* player, Creature* creature, uint32 vendorEntry)
 //{
 //    auto ret = IsValidBoolScript<AllCreatureScript>([&](AllCreatureScript* script)

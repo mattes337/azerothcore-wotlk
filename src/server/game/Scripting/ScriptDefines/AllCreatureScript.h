@@ -35,6 +35,10 @@ public:
     // Called from End of Creature SelectLevel.
     virtual void OnCreatureSelectLevel(const CreatureTemplate* /*cinfo*/, Creature* /*creature*/) { }
 
+    // Called after UpdateAllStats() in Creature::UpdateEntry when all
+    // stats (HP, damage, armor, resistances) are finalized.
+    virtual void OnAfterCreatureUpdateStats(Creature* /*creature*/) { }
+
     /**
      * @brief This hook runs after add creature in world
      *

@@ -604,6 +604,8 @@ bool Creature::UpdateEntry(uint32 Entry, const CreatureData* data, bool changele
     SetCanModifyStats(true);
     UpdateAllStats();
 
+    sScriptMgr->OnAfterCreatureUpdateStats(this);
+
     LoadSparringPct();
 
     // checked and error show at loading templates
