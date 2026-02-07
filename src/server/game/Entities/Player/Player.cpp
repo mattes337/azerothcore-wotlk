@@ -9502,6 +9502,17 @@ void Player::Whisper(uint32 textId, Player* target, bool isBossWhisper)
     target->SendDirectMessage(&data);
 }
 
+void Player::SendAddonMessage(std::string_view prefix, std::string_view message, ChatMsg type, Player* receiver)
+{
+    ASSERT(receiver);
+
+    std::string fullmsg = std::string(prefix) + "\t" + std::string(message);
+
+    WorldPacket data;
+    ChatHandler::BuildChatPacket(data, type, LANG_ADDON, this, receiver, fullmsg);
+    receiver->SendDirectMessage(&data);
+}
+
 void Player::PetSpellInitialize()
 {
     Pet* pet = GetPet();

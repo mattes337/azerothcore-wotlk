@@ -1226,6 +1226,7 @@ public:
     /// Handles whispers from Addons and players based on sender, receiver's guid and language.
     void Whisper(std::string_view text, Language language, Player* receiver, bool = false) override;
     void Whisper(uint32 textId, Player* target, bool isBossWhisper = false) override;
+    void SendAddonMessage(std::string_view prefix, std::string_view message, ChatMsg type, Player* receiver);
 
     /*********************************************************/
     /***                    STORAGE SYSTEM                 ***/
