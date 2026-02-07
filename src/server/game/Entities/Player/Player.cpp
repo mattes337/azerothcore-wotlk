@@ -4724,6 +4724,8 @@ void Player::DurabilityPointsLoss(Item* item, int32 points)
             _ApplyItemMods(item, item->GetSlot(), true);
 
         item->SetState(ITEM_CHANGED, this);
+
+        sScriptMgr->OnPlayerDurabilityChange(this, item, pOldDurability, pNewDurability);
     }
 }
 
@@ -4826,6 +4828,10 @@ uint32 Player::DurabilityRepair(uint16 pos, bool cost, float discountMod, bool g
     // reapply mods for total broken and repaired item if equipped
     if (IsEquipmentPos(pos) && !curDurability)
         _ApplyItemMods(item, pos & 255, true);
+
+    if (curDurability < maxDurability)
+        sScriptMgr->OnPlayerDurabilityChange(this, item, curDurability, maxDurability);
+
     return TotalCost;
 }
 

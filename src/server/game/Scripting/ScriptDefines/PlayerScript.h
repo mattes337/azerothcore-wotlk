@@ -105,6 +105,7 @@ enum PlayerHook
     PLAYERHOOK_ON_BEFORE_QUEST_COMPLETE,
     PLAYERHOOK_ON_QUEST_COMPUTE_EXP,
     PLAYERHOOK_ON_BEFORE_DURABILITY_REPAIR,
+    PLAYERHOOK_ON_DURABILITY_CHANGE,
     PLAYERHOOK_ON_BEFORE_BUY_ITEM_FROM_VENDOR,
     PLAYERHOOK_ON_BEFORE_STORE_OR_EQUIP_NEW_ITEM,
     PLAYERHOOK_ON_AFTER_STORE_OR_EQUIP_NEW_ITEM,
@@ -440,6 +441,9 @@ public:
 
     // Before durability repair action, you can even modify the discount value
     virtual void OnPlayerBeforeDurabilityRepair(Player* /*player*/, ObjectGuid /*npcGUID*/, ObjectGuid /*itemGUID*/, float&/*discountMod*/, uint8 /*guildBank*/) { }
+
+    // Called when an item's durability changes (loss or repair)
+    virtual void OnPlayerDurabilityChange(Player* /*player*/, Item* /*item*/, uint32 /*oldDurability*/, uint32 /*newDurability*/) { }
 
     //Before buying something from any vendor
     virtual void OnPlayerBeforeBuyItemFromVendor(Player* /*player*/, ObjectGuid /*vendorguid*/, uint32 /*vendorslot*/, uint32& /*item*/, uint8 /*count*/, uint8 /*bag*/, uint8 /*slot*/) { };

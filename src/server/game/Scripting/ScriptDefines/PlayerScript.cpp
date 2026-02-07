@@ -24,6 +24,11 @@ void ScriptMgr::OnPlayerBeforeDurabilityRepair(Player* player, ObjectGuid npcGUI
     CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_BEFORE_DURABILITY_REPAIR, script->OnPlayerBeforeDurabilityRepair(player, npcGUID, itemGUID, discountMod, guildBank));
 }
 
+void ScriptMgr::OnPlayerDurabilityChange(Player* player, Item* item, uint32 oldDurability, uint32 newDurability)
+{
+    CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_DURABILITY_CHANGE, script->OnPlayerDurabilityChange(player, item, oldDurability, newDurability));
+}
+
 void ScriptMgr::OnPlayerGossipSelect(Player* player, uint32 menu_id, uint32 sender, uint32 action)
 {
     CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_GOSSIP_SELECT, script->OnPlayerGossipSelect(player, menu_id, sender, action));
