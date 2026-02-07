@@ -209,6 +209,7 @@ enum PlayerHook
     PLAYERHOOK_ON_SEND_LIST_INVENTORY,
     PLAYERHOOK_ON_GIVE_REPUTATION,
     PLAYERHOOK_ON_ADDON_MESSAGE,
+    PLAYERHOOK_ON_PLAYER_OPEN_LOCK,
     PLAYERHOOK_END
 };
 
@@ -805,6 +806,9 @@ public:
      * @param vendorEntry Entry of the vendor player is interacting with
      */
     virtual void OnPlayerSendListInventory(Player* /*player*/, ObjectGuid /*vendorGuid*/, uint32& /*vendorEntry*/) {}
+
+    // Called when a player successfully opens a lock (gathering node, lockpicking, etc.)
+    virtual void OnPlayerOpenLock(Player* /*player*/, GameObject* /*gameObject*/, Item* /*item*/, uint32 /*skillId*/, uint32 /*reqSkillValue*/) { }
 };
 
 #endif

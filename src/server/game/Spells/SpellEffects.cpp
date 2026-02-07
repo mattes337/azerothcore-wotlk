@@ -2157,6 +2157,8 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
         return;
     }
 
+    sScriptMgr->OnPlayerOpenLock(player, gameObjTarget, itemTarget, static_cast<uint32>(skillId), reqSkillValue);
+
     if (gameObjTarget)
         SendLoot(guid, LOOT_SKINNING);
     else if (itemTarget)

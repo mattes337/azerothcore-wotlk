@@ -920,6 +920,11 @@ void ScriptMgr::OnPlayerSendListInventory(Player* player, ObjectGuid vendorGuid,
     CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_SEND_LIST_INVENTORY, script->OnPlayerSendListInventory(player, vendorGuid, vendorEntry));
 }
 
+void ScriptMgr::OnPlayerOpenLock(Player* player, GameObject* gameObject, Item* item, uint32 skillId, uint32 reqSkillValue)
+{
+    CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_PLAYER_OPEN_LOCK, script->OnPlayerOpenLock(player, gameObject, item, skillId, reqSkillValue));
+}
+
 PlayerScript::PlayerScript(const char* name, std::vector<uint16> enabledHooks)
     : ScriptObject(name, PLAYERHOOK_END)
 {
