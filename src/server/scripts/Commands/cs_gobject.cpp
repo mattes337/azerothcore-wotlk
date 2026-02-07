@@ -51,6 +51,7 @@ public:
             { "add temp",  HandleGameObjectAddTempCommand,  SEC_GAMEMASTER,    Console::No },
             { "add",       HandleGameObjectAddCommand,      SEC_ADMINISTRATOR, Console::No },
             { "set phase", HandleGameObjectSetPhaseCommand, SEC_ADMINISTRATOR, Console::No },
+            { "set scale", HandleGameObjectSetScaleCommand, SEC_ADMINISTRATOR, Console::No },
             { "set state", HandleGameObjectSetStateCommand, SEC_ADMINISTRATOR, Console::No },
             { "respawn",   HandleGameObjectRespawn,         SEC_GAMEMASTER,    Console::No }
         };
@@ -572,6 +573,52 @@ public:
             object->SendCustomAnim(*objectState);
         }
         handler->PSendSysMessage("Set gobject type {} state {}", objectType, *objectState);
+        return true;
+    }
+
+    static bool HandleGameObjectSetScaleCommand(ChatHandler* handler, GameObjectSpawnId guidLow, float scale)
+    {
+        if (!guidLow)
+            return false;
+
+        GameObject* object = handler->GetObjectFromPlayerMapByDbGuid(guidLow);
+        if (!object)
+        {
+            handler->SendErrorMessage(LANG_COMMAND_OBJNOTFOUND, uint32(guidLow));
+            return false;
+        }
+
+        if (scale <= 0.0f || scale > 100.0f)
+        {
+            handler->SendErrorMessage(LANG_BAD_VALUE);
+            return false;
+        }
+
+        uint32 entry = object->GetEntry();
+
+        // Update in-memory template so reloaded object uses new scale
+        const_cast<GameObjectTemplate*>(object->GetGOInfo())->size = scale;
+
+        // Persist to database (template-level — affects all spawns of this entry)
+        WorldDatabase.DirectExecute("UPDATE gameobject_template SET size = {} WHERE entry = {}", scale, entry);
+
+        Map* map = object->GetMap();
+
+        // Generate a completely new spawn with new guid
+        // 3.3.5a client caches recently deleted objects and brings them back to life
+        // when CreateObject block for this guid is received again
+        // however it entirely skips parsing that block and only uses already known location
+        object->Delete();
+
+        object = new GameObject();
+        if (!object->LoadGameObjectFromDB(guidLow, map, true))
+        {
+            delete object;
+            return false;
+        }
+
+        handler->PSendSysMessage("Gameobject {} ({}) | Scale set to {} (template entry {} updated).",
+            object->GetSpawnId(), object->GetGOInfo()->name, scale, entry);
         return true;
     }
 
