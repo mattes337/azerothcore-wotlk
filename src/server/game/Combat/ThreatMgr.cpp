@@ -21,6 +21,7 @@
 #include "Map.h"
 #include "ObjectAccessor.h"
 #include "Player.h"
+#include "ScriptMgr.h"
 #include "SpellInfo.h"
 #include "SpellMgr.h"
 #include "Unit.h"
@@ -511,6 +512,8 @@ void ThreatMgr::AddThreat(Unit* victim, float threat, SpellSchoolMask schoolMask
             hatingCreature->AI()->CalculateThreat(victim, threat, threatSpell);
         }
     }
+
+    sScriptMgr->OnCalcThreat(iOwner, victim, threat, threatSpell);
 
     DoAddThreat(victim, threat);
 }

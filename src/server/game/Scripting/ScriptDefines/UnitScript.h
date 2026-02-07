@@ -46,6 +46,7 @@ enum UnitHook
     UNITHOOK_ON_CAN_AURA_STACK,
     UNITHOOK_ON_CHECK_AREA_AURA_RAID,
     UNITHOOK_ON_CALC_MELEE_DAMAGE_INFO,
+    UNITHOOK_ON_CALC_THREAT,
     UNITHOOK_END
 };
 
@@ -121,6 +122,9 @@ public:
 
     // Called after melee damage info is calculated (includes weaponSubclass field).
     virtual void OnCalcMeleeDamageInfo(CalcDamageInfo* /*damageInfo*/) { }
+
+    // Called when threat is being added. Scripts can modify the threat value.
+    virtual void OnCalcThreat(Unit* /*owner*/, Unit* /*victim*/, float& /*threat*/, SpellInfo const* /*threatSpell*/) { }
 };
 
 #endif

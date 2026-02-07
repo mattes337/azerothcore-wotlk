@@ -563,6 +563,7 @@ public: /* UnitScript */
     bool OnCanAuraStack(Aura const* newAura, Aura const* existingAura);
     bool OnCheckAreaAuraRaid(Aura const* aura, Unit* target);
     void OnCalcMeleeDamageInfo(CalcDamageInfo* damageInfo);
+    void OnCalcThreat(Unit* owner, Unit* victim, float& threat, SpellInfo const* threatSpell);
 
 public: /* MovementHandlerScript */
     void OnPlayerMove(Player* player, MovementInfo movementInfo, uint32 opcode);

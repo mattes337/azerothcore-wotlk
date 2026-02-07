@@ -149,6 +149,11 @@ void ScriptMgr::OnCalcMeleeDamageInfo(CalcDamageInfo* damageInfo)
     CALL_ENABLED_HOOKS(UnitScript, UNITHOOK_ON_CALC_MELEE_DAMAGE_INFO, script->OnCalcMeleeDamageInfo(damageInfo));
 }
 
+void ScriptMgr::OnCalcThreat(Unit* owner, Unit* victim, float& threat, SpellInfo const* threatSpell)
+{
+    CALL_ENABLED_HOOKS(UnitScript, UNITHOOK_ON_CALC_THREAT, script->OnCalcThreat(owner, victim, threat, threatSpell));
+}
+
 UnitScript::UnitScript(const char* name, bool addToScripts, std::vector<uint16> enabledHooks)
     : ScriptObject(name, UNITHOOK_END)
 {
