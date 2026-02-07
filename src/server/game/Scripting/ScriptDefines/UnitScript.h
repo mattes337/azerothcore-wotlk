@@ -43,6 +43,8 @@ enum UnitHook
     UNITHOOK_ON_UNIT_ENTER_COMBAT,
     UNITHOOK_ON_UNIT_DEATH,
     UNITHOOK_ON_UNIT_SET_SHAPESHIFT_FORM,
+    UNITHOOK_ON_CAN_AURA_STACK,
+    UNITHOOK_ON_CHECK_AREA_AURA_RAID,
     UNITHOOK_END
 };
 
@@ -108,6 +110,12 @@ public:
     virtual void OnUnitEnterCombat(Unit* /*unit*/, Unit* /*victim*/) { }
     virtual void OnUnitDeath(Unit* /*unit*/, Unit* /*killer*/) { }
     virtual void OnUnitSetShapeshiftForm(Unit* /*unit*/, uint8 /*form*/) { }
+
+    // Called when checking if two auras can stack. Return false to prevent stacking.
+    [[nodiscard]] virtual bool OnCanAuraStack(Aura const* /*newAura*/, Aura const* /*existingAura*/) { return true; }
+
+    // Called when checking if an area aura can affect a raid target. Return false to exclude.
+    [[nodiscard]] virtual bool OnCheckAreaAuraRaid(Aura const* /*aura*/, Unit* /*target*/) { return true; }
 };
 
 #endif

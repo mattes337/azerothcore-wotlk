@@ -1938,6 +1938,9 @@ bool Aura::CanBeAppliedOn(Unit* target)
 
 bool Aura::CheckAreaTarget(Unit* target)
 {
+    if (!sScriptMgr->OnCheckAreaAuraRaid(this, target))
+        return false;
+
     return CallScriptCheckAreaTargetHandlers(target);
 }
 
@@ -2108,6 +2111,9 @@ bool Aura::CanStackWith(Aura const* existingAura) const
         // same spell with same caster should not stack
         return false;
     }
+
+    if (!sScriptMgr->OnCanAuraStack(this, existingAura))
+        return false;
 
     return true;
 }

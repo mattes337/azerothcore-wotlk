@@ -559,6 +559,8 @@ public: /* UnitScript */
     void OnUnitEnterCombat(Unit* unit, Unit* victim);
     void OnUnitDeath(Unit* unit, Unit* killer);
     void OnUnitSetShapeshiftForm(Unit* unit, uint8 form);
+    bool OnCanAuraStack(Aura const* newAura, Aura const* existingAura);
+    bool OnCheckAreaAuraRaid(Aura const* aura, Unit* target);
 
 public: /* MovementHandlerScript */
     void OnPlayerMove(Player* player, MovementInfo movementInfo, uint32 opcode);

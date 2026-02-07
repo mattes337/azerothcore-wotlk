@@ -134,6 +134,16 @@ void ScriptMgr::OnUnitSetShapeshiftForm(Unit* unit, uint8 form)
     CALL_ENABLED_HOOKS(UnitScript, UNITHOOK_ON_UNIT_SET_SHAPESHIFT_FORM, script->OnUnitSetShapeshiftForm(unit, form));
 }
 
+bool ScriptMgr::OnCanAuraStack(Aura const* newAura, Aura const* existingAura)
+{
+    CALL_ENABLED_BOOLEAN_HOOKS(UnitScript, UNITHOOK_ON_CAN_AURA_STACK, !script->OnCanAuraStack(newAura, existingAura));
+}
+
+bool ScriptMgr::OnCheckAreaAuraRaid(Aura const* aura, Unit* target)
+{
+    CALL_ENABLED_BOOLEAN_HOOKS(UnitScript, UNITHOOK_ON_CHECK_AREA_AURA_RAID, !script->OnCheckAreaAuraRaid(aura, target));
+}
+
 UnitScript::UnitScript(const char* name, bool addToScripts, std::vector<uint16> enabledHooks)
     : ScriptObject(name, UNITHOOK_END)
 {
