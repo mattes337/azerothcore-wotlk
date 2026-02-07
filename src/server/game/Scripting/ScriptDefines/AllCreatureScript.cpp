@@ -86,6 +86,14 @@ void ScriptMgr::OnAfterCreatureUpdateStats(Creature* creature)
 //    return true;
 //}
 
+void ScriptMgr::OnBeforeCreatureSetRespawnTime(Creature* creature, uint32& respawnDelay)
+{
+    ExecuteScript<AllCreatureScript>([&](AllCreatureScript* script)
+    {
+        script->OnBeforeCreatureSetRespawnTime(creature, respawnDelay);
+    });
+}
+
 AllCreatureScript::AllCreatureScript(const char* name) :
     ScriptObject(name)
 {

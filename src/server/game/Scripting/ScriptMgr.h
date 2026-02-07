@@ -575,6 +575,7 @@ public: /* AllCreatureScript */
     void OnCreatureSelectLevel(const CreatureTemplate* cinfo, Creature* creature);
     void OnAfterCreatureUpdateStats(Creature* creature);
     void OnCreatureSaveToDB(Creature* creature);
+    void OnBeforeCreatureSetRespawnTime(Creature* creature, uint32& respawnDelay);
 
 public: /* AllGameobjectScript */
     void OnGameObjectSaveToDB(GameObject* go);

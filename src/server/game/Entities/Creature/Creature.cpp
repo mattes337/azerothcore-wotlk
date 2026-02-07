@@ -3650,6 +3650,9 @@ void Creature::ClearTextRepeatGroup(uint8 textGroup)
 
 void Creature::SetRespawnTime(uint32 respawn)
 {
+    if (respawn)
+        sScriptMgr->OnBeforeCreatureSetRespawnTime(this, respawn);
+
     m_respawnTime = respawn ? GameTime::GetGameTime().count() + respawn : 0;
 }
 

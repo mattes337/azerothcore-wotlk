@@ -106,6 +106,9 @@ public:
 
     //Called Whenever the UNIT_BYTE2_FLAG_FFA_PVP Bit is set on the creature
     virtual void OnFfaPvpStateUpdate(Creature* /*creature*/, bool /*InPvp*/) {}
+
+    // Called before a creature's respawn time is set. Scripts can modify the delay.
+    virtual void OnBeforeCreatureSetRespawnTime(Creature* /*creature*/, uint32& /*respawnDelay*/) { }
 };
 
 #endif
