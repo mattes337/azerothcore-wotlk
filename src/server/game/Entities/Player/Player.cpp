@@ -9508,6 +9508,13 @@ void Player::SendAddonMessage(std::string_view prefix, std::string_view message,
 
     std::string fullmsg = std::string(prefix) + "\t" + std::string(message);
 
+    if (fullmsg.length() > 255)
+    {
+        LOG_ERROR("entities.player", "Player::SendAddonMessage: message too long ({} bytes, max 255) from {} to {}",
+            fullmsg.length(), GetName(), receiver->GetName());
+        return;
+    }
+
     WorldPacket data;
     ChatHandler::BuildChatPacket(data, type, LANG_ADDON, this, receiver, fullmsg);
     receiver->SendDirectMessage(&data);
