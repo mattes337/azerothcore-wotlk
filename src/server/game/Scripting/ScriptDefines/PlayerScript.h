@@ -208,6 +208,7 @@ enum PlayerHook
     PLAYERHOOK_ON_CAN_GIVE_LEVEL,
     PLAYERHOOK_ON_SEND_LIST_INVENTORY,
     PLAYERHOOK_ON_GIVE_REPUTATION,
+    PLAYERHOOK_ON_ADDON_MESSAGE,
     PLAYERHOOK_END
 };
 
@@ -301,6 +302,10 @@ public:
 
     // The following methods are called when a player sends a chat message.
     virtual void OnPlayerBeforeSendChatMessage(Player* /*player*/, uint32& /*type*/, uint32& /*lang*/, std::string& /*msg*/) { }
+
+    // Called when a player sends an addon message (LANG_ADDON). Prefix and body
+    // are parsed from the "prefix\tbody" format. Return true to block the message.
+    [[nodiscard]] virtual bool OnPlayerAddonMessage(Player* /*player*/, uint32 /*type*/, std::string const& /*prefix*/, std::string& /*msg*/) { return false; }
 
     // Both of the below are called on emote opcodes.
     virtual void OnPlayerEmote(Player* /*player*/, uint32 /*emote*/) { }

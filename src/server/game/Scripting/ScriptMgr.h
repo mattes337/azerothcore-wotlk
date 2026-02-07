@@ -320,6 +320,7 @@ public: /* PlayerScript */
     void OnPlayerDuelStart(Player* player1, Player* player2);
     void OnPlayerDuelEnd(Player* winner, Player* loser, DuelCompleteType type);
     void OnPlayerBeforeSendChatMessage(Player* player, uint32& type, uint32& lang, std::string& msg);
+    bool OnPlayerAddonMessage(Player* player, uint32 type, std::string const& prefix, std::string& msg);
     void OnPlayerEmote(Player* player, uint32 emote);
     void OnPlayerTextEmote(Player* player, uint32 textEmote, uint32 emoteNum, ObjectGuid guid);
     void OnPlayerSpellCast(Player* player, Spell* spell, bool skipCheck);

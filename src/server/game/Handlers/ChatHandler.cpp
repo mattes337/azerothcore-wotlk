@@ -349,6 +349,28 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
 
     sScriptMgr->OnPlayerBeforeSendChatMessage(_player, type, lang, msg);
 
+    if (lang == LANG_ADDON)
+    {
+        // Parse addon prefix from "prefix\tbody" format
+        std::string prefix;
+        std::string body = msg;
+        auto tabPos = msg.find('\t');
+        if (tabPos != std::string::npos)
+        {
+            prefix = msg.substr(0, tabPos);
+            body = msg.substr(tabPos + 1);
+        }
+
+        if (!sScriptMgr->OnPlayerAddonMessage(_player, type, prefix, body))
+        {
+            recvData.rfinish();
+            return;
+        }
+
+        // Reconstruct msg in case a script modified the body
+        msg = prefix + "\t" + body;
+    }
+
     switch (type)
     {
         case CHAT_MSG_SAY:

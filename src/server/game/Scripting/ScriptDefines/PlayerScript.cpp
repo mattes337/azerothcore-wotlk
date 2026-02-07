@@ -179,6 +179,11 @@ void ScriptMgr::OnPlayerBeforeSendChatMessage(Player* player, uint32& type, uint
     CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_BEFORE_SEND_CHAT_MESSAGE, script->OnPlayerBeforeSendChatMessage(player, type, lang, msg));
 }
 
+bool ScriptMgr::OnPlayerAddonMessage(Player* player, uint32 type, std::string const& prefix, std::string& msg)
+{
+    CALL_ENABLED_BOOLEAN_HOOKS(PlayerScript, PLAYERHOOK_ON_ADDON_MESSAGE, !script->OnPlayerAddonMessage(player, type, prefix, msg));
+}
+
 void ScriptMgr::OnPlayerEmote(Player* player, uint32 emote)
 {
     CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_EMOTE, script->OnPlayerEmote(player, emote));
