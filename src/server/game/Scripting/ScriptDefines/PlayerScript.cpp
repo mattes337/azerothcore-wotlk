@@ -925,7 +925,7 @@ void ScriptMgr::OnPlayerOpenLock(Player* player, GameObject* gameObject, Item* i
     CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_PLAYER_OPEN_LOCK, script->OnPlayerOpenLock(player, gameObject, item, skillId, reqSkillValue));
 }
 
-void ScriptMgr::OnPlayerEnvironmentalDamage(Player* player, EnviromentalDamage type, uint32& damage)
+void ScriptMgr::OnPlayerEnvironmentalDamage(Player* player, uint8 type, uint32& damage)
 {
     CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_PLAYER_ENVIRONMENTAL_DAMAGE, script->OnPlayerEnvironmentalDamage(player, type, damage));
 }

@@ -216,8 +216,6 @@ enum PlayerHook
     PLAYERHOOK_END
 };
 
-enum EnviromentalDamage;
-
 class PlayerScript : public ScriptObject
 {
 protected:
@@ -586,7 +584,7 @@ public:
      * @param type    The type of environmental damage (DAMAGE_LAVA, DAMAGE_SLIME, DAMAGE_EXHAUSTED, etc.)
      * @param damage  The damage amount (modifiable)
      */
-    virtual void OnPlayerEnvironmentalDamage(Player* /*player*/, EnviromentalDamage /*type*/, uint32& /*damage*/) { }
+    virtual void OnPlayerEnvironmentalDamage(Player* /*player*/, uint8 /*type*/, uint32& /*damage*/) { }
 
     /**
      * @brief Called after item/enchantment proc chance is calculated but before the roll.

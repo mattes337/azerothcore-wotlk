@@ -775,7 +775,7 @@ uint32 Player::EnvironmentalDamage(EnviromentalDamage type, uint32 damage)
     if (IsImmuneToEnvironmentalDamage())
         return 0;
 
-    sScriptMgr->OnPlayerEnvironmentalDamage(this, type, damage);
+    sScriptMgr->OnPlayerEnvironmentalDamage(this, static_cast<uint8>(type), damage);
     if (damage == 0)
         return 0;
 
