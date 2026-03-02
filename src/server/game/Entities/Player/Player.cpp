@@ -775,6 +775,10 @@ uint32 Player::EnvironmentalDamage(EnviromentalDamage type, uint32 damage)
     if (IsImmuneToEnvironmentalDamage())
         return 0;
 
+    sScriptMgr->OnPlayerEnvironmentalDamage(this, type, damage);
+    if (damage == 0)
+        return 0;
+
     // Absorb, resist some environmental damage type
     uint32 absorb = 0;
     uint32 resist = 0;
@@ -7250,31 +7254,36 @@ void Player::CastItemCombatSpell(Unit* target, WeaponAttackType attType, uint32 
             if (!item->IsBroken())
                 if (ItemTemplate const* proto = item->GetTemplate())
                 {
-                    // Additional check for weapons
-                    if (proto->Class == ITEM_CLASS_WEAPON)
-                    {
-                        // offhand item cannot proc from main hand hit etc
-                        EquipmentSlots slot;
-                        switch (attType)
-                        {
-                            case BASE_ATTACK:
-                                slot = EQUIPMENT_SLOT_MAINHAND;
-                                break;
-                            case OFF_ATTACK:
-                                slot = EQUIPMENT_SLOT_OFFHAND;
-                                break;
-                            case RANGED_ATTACK:
-                                slot = EQUIPMENT_SLOT_RANGED;
-                                break;
-                            default:
-                                slot = EQUIPMENT_SLOT_END;
-                                break;
-                        }
-                        if (slot != i)
-                            continue;
-                    }
+                    bool isWeapon = (proto->Class == ITEM_CLASS_WEAPON);
+                    bool canTrigger = isWeapon || sScriptMgr->CanItemTriggerCombatSpell(this, item, proto);
 
-                    CastItemCombatSpell(target, attType, procVictim, procEx, item, proto);
+                    if (canTrigger)
+                    {
+                        // Weapons must match the attack type slot
+                        if (isWeapon)
+                        {
+                            EquipmentSlots slot;
+                            switch (attType)
+                            {
+                                case BASE_ATTACK:
+                                    slot = EQUIPMENT_SLOT_MAINHAND;
+                                    break;
+                                case OFF_ATTACK:
+                                    slot = EQUIPMENT_SLOT_OFFHAND;
+                                    break;
+                                case RANGED_ATTACK:
+                                    slot = EQUIPMENT_SLOT_RANGED;
+                                    break;
+                                default:
+                                    slot = EQUIPMENT_SLOT_END;
+                                    break;
+                            }
+                            if (slot != i)
+                                continue;
+                        }
+
+                        CastItemCombatSpell(target, attType, procVictim, procEx, item, proto);
+                    }
                 }
     }
 }
@@ -7318,6 +7327,8 @@ void Player::CastItemCombatSpell(Unit* target, WeaponAttackType attType, uint32 
             {
                 chance = GetWeaponProcChance();
             }
+
+            sScriptMgr->OnPlayerModifyItemProcChance(this, target, item, spellInfo, chance);
 
             if (roll_chance_f(chance) && sScriptMgr->OnCastItemCombatSpell(this, target, spellInfo, item))
                 CastSpell(target, spellInfo->Id, TriggerCastFlags(TRIGGERED_FULL_MASK & ~TRIGGERED_IGNORE_SPELL_AND_CATEGORY_CD), item);
@@ -7389,6 +7400,8 @@ void Player::CastItemCombatSpell(Unit* target, WeaponAttackType attType, uint32 
             // Shiv has 100% chance to apply the poison
             if (FindCurrentSpellBySpellId(5938) && e_slot == TEMP_ENCHANTMENT_SLOT)
                 chance = 100.0f;
+
+            sScriptMgr->OnPlayerModifyItemProcChance(this, target, item, spellInfo, chance);
 
             if (roll_chance_f(chance))
             {

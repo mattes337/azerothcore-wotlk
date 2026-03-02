@@ -210,8 +210,13 @@ enum PlayerHook
     PLAYERHOOK_ON_GIVE_REPUTATION,
     PLAYERHOOK_ON_ADDON_MESSAGE,
     PLAYERHOOK_ON_PLAYER_OPEN_LOCK,
+    PLAYERHOOK_ON_PLAYER_ENVIRONMENTAL_DAMAGE,
+    PLAYERHOOK_ON_PLAYER_MODIFY_ITEM_PROC_CHANCE,
+    PLAYERHOOK_CAN_ITEM_TRIGGER_COMBAT_SPELL,
     PLAYERHOOK_END
 };
+
+enum EnviromentalDamage;
 
 class PlayerScript : public ScriptObject
 {
@@ -572,6 +577,40 @@ public:
     [[nodiscard]] virtual bool OnPlayerCanCastItemCombatSpell(Player* /*player*/, Unit* /*target*/, WeaponAttackType /*attType*/, uint32 /*procVictim*/, uint32 /*procEx*/, Item* /*item*/, ItemTemplate const* /*proto*/) { return true; }
 
     [[nodiscard]] virtual bool OnPlayerCanCastItemUseSpell(Player* /*player*/, Item* /*item*/, SpellCastTargets const& /*targets*/, uint8 /*cast_count*/, uint32 /*glyphIndex*/) { return true; }
+
+    /**
+     * @brief Called when a player takes environmental damage (lava, slime, drowning, fatigue, fall).
+     *        Scripts can modify the damage amount. Setting damage to 0 prevents the damage entirely.
+     *
+     * @param player  The player taking environmental damage
+     * @param type    The type of environmental damage (DAMAGE_LAVA, DAMAGE_SLIME, DAMAGE_EXHAUSTED, etc.)
+     * @param damage  The damage amount (modifiable)
+     */
+    virtual void OnPlayerEnvironmentalDamage(Player* /*player*/, EnviromentalDamage /*type*/, uint32& /*damage*/) { }
+
+    /**
+     * @brief Called after item/enchantment proc chance is calculated but before the roll.
+     *        Scripts can modify the proc chance.
+     *
+     * @param player    The player whose item is proccing
+     * @param target    The target of the combat spell
+     * @param item      The item triggering the proc
+     * @param spellInfo The spell that would be cast
+     * @param chance    The proc chance percentage (modifiable)
+     */
+    virtual void OnPlayerModifyItemProcChance(Player* /*player*/, Unit* /*target*/, Item* /*item*/, SpellInfo const* /*spellInfo*/, float& /*chance*/) { }
+
+    /**
+     * @brief Called to determine if a non-weapon item can trigger combat spells (ITEM_SPELLTRIGGER_CHANCE_ON_HIT).
+     *        By default only weapons (ITEM_CLASS_WEAPON) can trigger. Return true to allow other item classes.
+     *
+     * @param player  The player in combat
+     * @param item    The item being evaluated
+     * @param proto   The item template
+     *
+     * @return true to allow this item to trigger combat spells, false to use default behavior (weapons only)
+     */
+    [[nodiscard]] virtual bool CanItemTriggerCombatSpell(Player* /*player*/, Item* /*item*/, ItemTemplate const* /*proto*/) { return false; }
 
     virtual void OnPlayerApplyAmmoBonuses(Player* /*player*/, ItemTemplate const* /*proto*/, float& /*currentAmmoDPS*/) { }
 

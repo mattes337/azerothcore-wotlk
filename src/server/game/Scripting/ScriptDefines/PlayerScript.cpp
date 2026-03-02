@@ -925,6 +925,21 @@ void ScriptMgr::OnPlayerOpenLock(Player* player, GameObject* gameObject, Item* i
     CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_PLAYER_OPEN_LOCK, script->OnPlayerOpenLock(player, gameObject, item, skillId, reqSkillValue));
 }
 
+void ScriptMgr::OnPlayerEnvironmentalDamage(Player* player, EnviromentalDamage type, uint32& damage)
+{
+    CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_PLAYER_ENVIRONMENTAL_DAMAGE, script->OnPlayerEnvironmentalDamage(player, type, damage));
+}
+
+void ScriptMgr::OnPlayerModifyItemProcChance(Player* player, Unit* target, Item* item, SpellInfo const* spellInfo, float& chance)
+{
+    CALL_ENABLED_HOOKS(PlayerScript, PLAYERHOOK_ON_PLAYER_MODIFY_ITEM_PROC_CHANCE, script->OnPlayerModifyItemProcChance(player, target, item, spellInfo, chance));
+}
+
+bool ScriptMgr::CanItemTriggerCombatSpell(Player* player, Item* item, ItemTemplate const* proto)
+{
+    CALL_ENABLED_BOOLEAN_HOOKS_WITH_DEFAULT_FALSE(PlayerScript, PLAYERHOOK_CAN_ITEM_TRIGGER_COMBAT_SPELL, script->CanItemTriggerCombatSpell(player, item, proto));
+}
+
 PlayerScript::PlayerScript(const char* name, std::vector<uint16> enabledHooks)
     : ScriptObject(name, PLAYERHOOK_END)
 {

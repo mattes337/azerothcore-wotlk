@@ -420,6 +420,9 @@ public: /* PlayerScript */
     bool OnPlayerCanApplyEquipSpellsItemSet(Player* player, ItemSetEffect* eff);
     bool OnPlayerCanCastItemCombatSpell(Player* player, Unit* target, WeaponAttackType attType, uint32 procVictim, uint32 procEx, Item* item, ItemTemplate const* proto);
     bool OnPlayerCanCastItemUseSpell(Player* player, Item* item, SpellCastTargets const& targets, uint8 cast_count, uint32 glyphIndex);
+    void OnPlayerEnvironmentalDamage(Player* player, EnviromentalDamage type, uint32& damage);
+    void OnPlayerModifyItemProcChance(Player* player, Unit* target, Item* item, SpellInfo const* spellInfo, float& chance);
+    bool CanItemTriggerCombatSpell(Player* player, Item* item, ItemTemplate const* proto);
     void OnPlayerApplyAmmoBonuses(Player* player, ItemTemplate const* proto, float& currentAmmoDPS);
     bool OnPlayerCanEquipItem(Player* player, uint8 slot, uint16& dest, Item* pItem, bool swap, bool not_loading);
     bool OnPlayerCanUnequipItem(Player* player, uint16 pos, bool swap);
